@@ -1,5 +1,5 @@
 # Exercise 1 - Turn shopping cart into class.
-# Ask the user four bits of input: Do you want to : Show/Add/Delete or Quit?
+# Ask the user four bits of input: Do you want to : Show/Add/Delete or Quit? 
 
 class NewCart():
     def __init__(self):

@@ -11,5 +11,7 @@ for names in data.split("\n"):
     match = pattern.match(names)
     if match:
         print(match.group())
+    elif names == "":
+        continue
     else:
         print("None")

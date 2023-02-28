@@ -1,4 +1,5 @@
-venv/
+hw_venv/
 __pycache__/
 *pyc/
 .env
+readme.txt

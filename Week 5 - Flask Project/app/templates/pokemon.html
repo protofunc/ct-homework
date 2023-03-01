@@ -1,20 +1,28 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Ergast
+Pokemon Data
 {% endblock %}
 
 {% block content %}
-<form action="/ergast" method="POST">
+<form action="/pokemon" method="POST">
+    {{form.hidden_tag()}}
     <div class="form-group">
-        <label for="year">Pokemon Name</label>
-        <input type="text" class="form-control" id="poke_name" name="poke_name">
+        {{form.name.label}}
+        {{form.name(class="form-control")}}
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    {{form.submit_btn(class="btn btn-primary")}}
 </form>
+<div>
+    <small style="color: red">{{error}}</small>
+</div>
 
 {% if poke_data %}
 <table class="table table-dark">
+    {% for pokemon in poke_data %}
+    <div class="sprite">
+        <img src="{{pokemon['sprite URL']}}" alt="Pokemon">
+    </div>
     <thead>
         <tr>
             <th scope="col">Name</th>
@@ -27,7 +35,7 @@ Ergast
         </tr>
     </thead>
     <tbody>
-        {% for pokemon in poke_data %}
+        
         <tr>
             <th scope="row">{{pokemon.name}}</th>
             <td>{{pokemon.ability}}</td>
@@ -37,7 +45,7 @@ Ergast
             <td>{{pokemon['hp base_stat']}}</td>
             <td>{{pokemon['defense base_stat']}}</td>
         </tr>
-        {% endfor %}
+    {% endfor %}
     </tbody>
 </table>
 {% endif %}

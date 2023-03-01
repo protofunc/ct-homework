@@ -1,0 +1,9 @@
+.sprite {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home_h1 {
+    text-align: center;
+}

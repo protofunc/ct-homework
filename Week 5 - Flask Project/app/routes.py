@@ -1,11 +1,31 @@
 from flask import render_template, request
 import requests
-from .forms import PokeForm
+from .forms import PokeForm, LoginForm, RegisterForm
 from app import app
 
 @app.route("/")
 def home():
     return render_template('home.html')
+
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        email = form.email.data.lower()
+        password = form.password.data
+        if email in app.config.get('REGISTERED_USERS') and password == app.config.get('REGISTERED_USERS').get(email).get('password'):
+            return f"Successfully logged in. Hello, {app.config.get('REGISTERED_USERS').get(email).get('name')}."
+        else:
+            error = "Invalid email or password."
+            return render_template('login.html', error=error, form=form)
+    return render_template('login.html', form=form)
+
+@app.route('/register', methods = ['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        return 'Success.'
+    return render_template('register.html', form=form)
 
 @app.route('/pokemon', methods=['GET', 'POST'])
 def pokemon():
@@ -36,5 +56,5 @@ def pokemon():
             return render_template('pokemon.html', form=form, poke_data=poke_data)
         else:
             error = 'Incorrect pokemon name.'
-            return error 
+            return render_template('pokemon.html', form=form, error=error) 
     return render_template('pokemon.html', form=form)

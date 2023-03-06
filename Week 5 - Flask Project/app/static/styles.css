@@ -1,3 +1,10 @@
+body  {
+    background-image: url("img_bg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #7dad71;
+  }
+
 .sprite {
     display: flex;
     align-items: center;

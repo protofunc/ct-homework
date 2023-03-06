@@ -6,14 +6,16 @@ from app.models import User
 from werkzeug.security import check_password_hash
 from flask_login import login_user, logout_user, current_user, login_required
 
-
+'''Home route'''
 @app.route("/")
 @login_required
 def home():
     return render_template('home.html')
 
+'''Login route'''
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
+    # Created from forms.py
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
         email = form.email.data.lower()
@@ -31,6 +33,7 @@ def login():
             return render_template('login.html', error=error, form=form)
     return render_template('login.html', form=form)
 
+'''Logout route'''
 @app.route('/logout', methods=['GET'])
 @login_required
 def logout():
@@ -39,6 +42,7 @@ def logout():
         flash('You have logged out!', 'success')
         return redirect(url_for('login'))
 
+'''Registration route'''
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -64,6 +68,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
+'''Pokemon API route'''
 @app.route('/pokemon', methods=['GET', 'POST'])
 @login_required
 def pokemon():
@@ -78,6 +83,7 @@ def pokemon():
         print(response.ok)
         '''Test printed to terminal'''
         
+        # Display to tables
         if response.ok:
             poke = response.json()
             poke_data = []

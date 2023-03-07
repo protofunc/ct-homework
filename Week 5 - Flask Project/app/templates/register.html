@@ -27,7 +27,9 @@ Register
         {{form.confirm_password.label}}
         {{form.confirm_password(class='form-control')}}
     </div>
-    {{form.submit_btn(class="btn btn-primary")}}
+    <div class="buttons">
+        {{form.submit_btn(class="btn btn-primary")}}
+    </div>
     <div style="color: red">
         <small>{{error}}</small>
     </div>

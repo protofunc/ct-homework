@@ -37,5 +37,6 @@ def pokemon():
             return render_template('pokemon.html', form=form, poke_data=poke_data)
         else:
             error = 'Incorrect pokemon name.'
-            return render_template('pokemon.html', form=form, error=error) 
+            flash(error, 'danger')
+            return render_template('pokemon.html', form=form) 
     return render_template('pokemon.html', form=form)

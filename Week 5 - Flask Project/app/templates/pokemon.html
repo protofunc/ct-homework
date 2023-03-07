@@ -1,30 +1,28 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Pokemon Data
+    Pokemon Data
 {% endblock %}
 
 {% block content %}
+<h1 class="h1-poke">Pokemon API</h1>
 <form action="{{url_for('main.pokemon')}}" method="POST">
     {{form.hidden_tag()}}
     <div class="form-group">
-        {{form.name.label}}
+        <!-- {{form.name.label}} -->
         {{form.name(class="form-control")}}
     </div>
-    {{form.submit_btn(class="btn btn-primary")}}
+    <div class="buttons">
+        {{form.submit_btn(class="btn btn-primary")}}
+    </div>
 </form>
-<div>
-    <small style="color: red">{{error}}</small>
-</div>
 
 {% if poke_data %}
-<table class="table table-dark">
+<table class="table table-primary">
     {% for pokemon in poke_data %}
-    <div class="sprite">
-        <img src="{{pokemon['sprite URL']}}" alt="Pokemon">
-    </div>
     <thead>
         <tr>
+            <th scope="col">Pokemon</th>
             <th scope="col">Name</th>
             <th scope="col">Ability</th>
             <th scope="col">Base Experience</th>
@@ -35,12 +33,12 @@ Pokemon Data
         </tr>
     </thead>
     <tbody>
-        
         <tr>
-            <th scope="row">{{pokemon.name}}</th>
+            <td><img src="{{pokemon['sprite URL']}}" alt="Pokemon"></td>
+            <td>{{pokemon.name}}</td>
             <td>{{pokemon.ability}}</td>
             <td>{{pokemon.base_experience}}</td>
-            <td>{{pokemon['sprite URL']}}</td>
+            <td><a href="{{pokemon['sprite URL']}}" target="_blank">Sprite Link</a></td>
             <td>{{pokemon['attack base_stat']}}</td>
             <td>{{pokemon['hp base_stat']}}</td>
             <td>{{pokemon['defense base_stat']}}</td>

@@ -6,7 +6,7 @@ Profile
 
 {% block content %}
 <div>
-    <h1 class="profile_h1">Edit profile!</h1>
+    <h1 class="h1-profile">Edit Profile</h1>
 </div>
 <form action="{{url_for('auth.profile')}}" method="POST">
     {{form.hidden_tag()}}
@@ -22,6 +22,8 @@ Profile
         {{form.email.label}}
         {{form.email(class="form-control")}}
     </div>
-    {{form.submit_btn(class="btn btn-primary")}}
+    <div class="buttons">
+        {{form.submit_btn(class="btn btn-primary")}}
+    </div>
 </form>  
 {% endblock %}

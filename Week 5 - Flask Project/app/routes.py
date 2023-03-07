@@ -1,6 +1,6 @@
 from flask import render_template, request, flash, redirect, url_for
 import requests
-from .forms import PokeForm, LoginForm, RegisterForm
+from .forms import PokeForm, LoginForm, RegisterForm, EditProfileForm
 from app import app
 from app.models import User
 from werkzeug.security import check_password_hash
@@ -67,6 +67,32 @@ def register():
         flash('You have successfully registered!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
+'''Profile edit route'''
+@app.route('/profile', methods = ['GET', 'POST'])
+@login_required
+def profile():
+    form = EditProfileForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        # Grabbing our form data and storing into a dict
+        this_user_data = {
+            'first_name': form.first_name.data.title(),
+            'last_name': form.last_name.data.title(),
+            'email': form.email.data.lower()
+        }
+
+        # Get user from DB to edit
+        this_user = User.query.filter_by(email=this_user_data['email']).first()
+
+        if this_user:
+            flash('Email already exists', 'danger')
+            return redirect(url_for('profile'))
+        else:
+            current_user.update_dict(this_user_data)
+            current_user.save_to_db()
+            flash('Profile updated.', 'success')
+            return redirect(url_for('home'))
+    return render_template('profile.html', form=form)
 
 '''Pokemon API route'''
 @app.route('/pokemon', methods=['GET', 'POST'])

@@ -26,6 +26,7 @@ class User(UserMixin, db.Model):
         self.email = data['email']
         self.password = self.hash_password(data['password'])
 
+    # Update user attributes without prompting for password
     def update_dict(self, data):
         self.first_name = data['first_name']
         self.last_name = data['last_name']

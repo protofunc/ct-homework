@@ -4,21 +4,35 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
-# INITIALIZING SECTION
-app = Flask(__name__)
-app.config.from_object(Config)
+# Init packages
+login = LoginManager()
+db = SQLAlchemy()
+migrate = Migrate()
 
-# Register Packages
-login = LoginManager(app)
+# Create app
+def create_app():
+    # Init app
+    app = Flask(__name__)
 
-# Database Manager
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+    # Config link
+    app.config.from_object(Config)
 
-# Configure Settings
-login.login_view = 'login'
-login.login_message = 'Please log into your account.'
-login.login_message_category = 'warning'
+    # Register packages
+    login.init_app(app)
+    db.init_app(app)
+    migrate.init_app(app, db)
 
+    # Config login
+    login.login_view = 'auth.login'
+    login.login_message = 'Please log into your account.'
+    login.login_message_category = 'warning'
 
-from app import routes, models
+    # Import blueprints
+    from app.blueprints.main import main
+    from app.blueprints.auth import auth
+
+    # Register blueprints
+    app.register_blueprint(main)
+    app.register_blueprint(auth)
+
+    return app

@@ -5,7 +5,7 @@ Pokemon Data
 {% endblock %}
 
 {% block content %}
-<form action="/pokemon" method="POST">
+<form action="{{url_for('main.pokemon')}}" method="POST">
     {{form.hidden_tag()}}
     <div class="form-group">
         {{form.name.label}}

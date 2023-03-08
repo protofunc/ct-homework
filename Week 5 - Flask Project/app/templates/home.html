@@ -9,10 +9,10 @@ Home
     {% for user in users %}
     {% if user != current_user %}
     <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
+        <img class="card-img-top" src="{{ url_for('static', filename='../static/images/generic_user.png') }}" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
-          <p class="card-text">Stuf goes here.</p>
+          <p class="card-text">Gotta catch 'em all!</p>
           <a href="#" class="btn btn-primary">Follow</a>
         </div>
       </div>

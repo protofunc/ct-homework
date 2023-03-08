@@ -8,6 +8,7 @@ body  {
     background-size: cover;
     background-repeat: no-repeat;
     background-color: #7dad71;
+    background-attachment: fixed;
 }
 
 table {

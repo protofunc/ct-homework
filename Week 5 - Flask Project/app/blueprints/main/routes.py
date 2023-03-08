@@ -3,12 +3,14 @@ import requests
 from app.blueprints.main.forms import PokeForm
 from app.blueprints.main import main
 from flask_login import login_required
+from ...models import User
 
 '''Home route'''
 @main.route("/")
 @login_required
 def home():
-    return render_template('home.html')
+    users = User.query.all()
+    return render_template('home.html', users=users)
 
 '''Pokemon API route'''
 @main.route('/pokemon', methods=['GET', 'POST'])

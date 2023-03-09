@@ -49,6 +49,11 @@ h1 {
     padding: 1em;
 }
 
+.poke-btns {
+    display: flex;
+    flex-direction: row;
+}
+
 form {
     display: flex;
     flex-direction:column;

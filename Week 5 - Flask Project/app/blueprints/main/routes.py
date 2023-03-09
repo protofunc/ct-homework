@@ -3,7 +3,7 @@ import requests
 from app.blueprints.main.forms import PokeForm
 from app.blueprints.main import main
 from flask_login import login_required
-from ...models import User
+from ...models import User, Pokemon
 
 '''Home route'''
 @main.route("/")
@@ -36,9 +36,39 @@ def pokemon():
                 'defense base_stat': poke['stats'][3]['base_stat']
             }
             poke_data.append(poke_dict)
+
+            '''Save pokemon to pokemon db if catch button selected'''
+            # ------- Save Pokemon to DB ------- #
+            if poke_dict:
+                # Created new db dict instead of using poke_dict because i didn't want to go through the other files and update the name change. Refactor later.
+                poke_db_dict = {
+                    'poke_name': poke_dict['name'],
+                    'ability': poke_dict['ability'],
+                    'sprite_url': poke_dict['sprite URL'],
+                    'exp': poke_dict['base_experience'],
+                    'attack': poke_dict['attack base_stat'],
+                    'hp': poke_dict['hp base_stat'],
+                    'defense': poke_dict['defense base_stat']
+                }
+
+                # Verify dict is same naming convention as pokemon model paramaters
+
+                print(poke_db_dict)
+
+                # # Create instance of pokemon
+                # new_poke = Pokemon()
+
+                # # Implementing values from our form data for our instance
+                # new_poke.from_dict(poke_db_dict)
+
+                # # Save user to database
+                # new_poke.save_to_db()
+
             return render_template('pokemon.html', form=form, poke_data=poke_data)
+        
         else:
             error = 'Incorrect pokemon name.'
             flash(error, 'danger')
             return render_template('pokemon.html', form=form) 
+    
     return render_template('pokemon.html', form=form)

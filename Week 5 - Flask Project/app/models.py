@@ -60,6 +60,40 @@ class User(UserMixin, db.Model):
 def load_user(user_id):
     return User.query.get(user_id)
 
+'''Pokemon table'''
+class Pokemon(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    poke_name = db.Column(db.String, nullable=False)
+    ability = db.Column(db.String)
+    sprite_url = db.Column(db.String)
+    exp = db.Column(db.Integer)
+    attack = db.Column(db.Integer)
+    hp = db.Column(db.Integer)
+    defense = db.Column(db.Integer)
+    
+    # Use this method to register our user attributes
+    def from_dict(self, data):
+        self.poke_name = data['poke_name']
+        self.ability = data['ability']
+        self.sprite_url = data['sprite_url']
+        self.exp = data['exp']
+        self.attack = data['attack']
+        self.hp = data['hp']
+        self.defense = data['defense']
+    
+    # Save the pokemon to database
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+'''Table to bridge user and pokemon'''
+poke_team = db.Table(
+    'poke_team',
+    db.Column('poke_id', db.Integer, db.ForeignKey('pokemon.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+)
+
+'''Posting to the feed'''
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     img_url = db.Column(db.String, nullable=False)

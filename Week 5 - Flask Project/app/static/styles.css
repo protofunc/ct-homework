@@ -43,13 +43,14 @@ h1 {
     background-color: rgb(17, 93, 192);
     color: white;
     font-size:medium;
+    border: none;
 }
 
 .buttons {
     padding: 1em;
 }
 
-.poke-btns {
+.poke-btns, .poke-btns {
     display: flex;
     flex-direction: row;
 }

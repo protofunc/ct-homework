@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Post {{post.title}}
+{% endblock %}
+
+{% block content %}
+    <h1 class="h1-feed">{{post.author.first_name}}'s Post</h1>
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="{{post.img_url}}" alt="Card image cap">
+        <div class="card-body">
+        <h5 class="card-title">{{post.title}}</h5>
+        <p class="card-text">{{post.caption}}</p>
+        <small class="card-subtitle text-muted">Posted by {{post.author.first_name}}
+            {{moment(post.date_created).fromNow()}}.</small>
+        <p></p>
+        </div>
+        {% if current_user.id == post.user_id %}
+        <div class="post-btn mx-auto" style="margin-bottom: 1em">
+            <a class="btn btn-success mx-auto" href="{{url_for('posts.update_post', post_id=post.id)}}">Update</a>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger mx-auto" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Delete
+            </button>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mx-auto" id="exampleModalLabel">Delete Post?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary mx-auto" data-bs-dismiss="modal">Cancel</button>
+                        <a type="button" class="btn btn-danger mx-auto" href="{{url_for('posts.delete_post', post_id=post.id)}}">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

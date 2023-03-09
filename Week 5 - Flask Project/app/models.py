@@ -56,6 +56,20 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
 
+    # Update the user to database
+    def update_to_db(self):
+        db.session.commit()
+
+    # follow user
+    def follow_user(self, user):
+        self.followed.append(user)
+        db.session.commit()
+    
+    # unfollow user
+    def unfollow_user(self, user):
+        self.followed.remove(user)
+        db.session.commit()
+
 @login.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
@@ -113,4 +127,13 @@ class Post(db.Model):
     # Save the user to database
     def save_to_db(self):
         db.session.add(self)
+        db.session.commit()
+
+    # Update to db
+    def update_to_db(self):
+        db.session.commit()
+
+    # Delete from db
+    def delete_post(self):
+        db.session.delete(self)
         db.session.commit()

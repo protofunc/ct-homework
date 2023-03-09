@@ -2,7 +2,7 @@ from flask import render_template, request, flash, redirect, url_for
 import requests
 from app.blueprints.main.forms import PokeForm
 from app.blueprints.main import main
-from flask_login import login_required
+from flask_login import login_required, current_user
 from ...models import User, Pokemon
 
 '''Home route'''
@@ -10,6 +10,15 @@ from ...models import User, Pokemon
 @login_required
 def home():
     users = User.query.all()
+    # Following values
+    following_set = set()
+    for user in current_user.followed:
+        following_set.add(user)
+    
+    for user in users:
+        if user in following_set:
+            user.isFollowing = True
+
     return render_template('home.html', users=users)
 
 '''Pokemon API route'''

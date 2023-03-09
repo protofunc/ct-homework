@@ -8,16 +8,16 @@
     <h1 class="h1-feed">PokeFeed</h1>
     {% if posts %}
       {% for post in posts %}
-        <div class="card" style="width: 18rem;">
+        <a class="card text-decoration-none text-dark" style="width: 18rem;" href="{{url_for('posts.view_single_post', post_id=post.id)}}">
           <img class="card-img-top" src="{{post.img_url}}" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">{{post.title}}</h5>
             <p class="card-text">{{post.caption}}</p>
             <small class="card-subtitle text-muted">Posted by {{post.author.first_name}}
-              {{moment(post.date_created).fromNow()}}.</small>
-            <p></p>
+              {{moment(post.date_created).fromNow()}}.
+            </small>
           </div>
-        </div>
+        </a>
       {% endfor %}
     {% endif %}
 {% endblock %}

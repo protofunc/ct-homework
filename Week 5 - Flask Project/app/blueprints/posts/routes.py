@@ -1,7 +1,6 @@
 from flask import render_template, request, flash, redirect, url_for
 from app.blueprints.posts.forms import PostForm
 from app.blueprints.posts import posts
-from app.models import Post
 from werkzeug.security import check_password_hash
 from flask_login import current_user, login_required
 from app.models import Post, User

@@ -9,12 +9,51 @@ followers = db.Table(
     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
 )
-'''Alternate way to do above'''
-# class follower(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     follower_id = db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-#     followed_id = db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
 
+'''Table to join user and pokemon'''
+poke_team = db.Table(
+    'poke_team',
+    db.Column('poke_id', db.Integer, db.ForeignKey('pokemon.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+)
+
+'''Pokemon table'''
+class Pokemon(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    poke_name = db.Column(db.String, nullable=False)
+    ability = db.Column(db.String)
+    sprite_url = db.Column(db.String)
+    exp = db.Column(db.Integer)
+    attack = db.Column(db.Integer)
+    hp = db.Column(db.Integer)
+    defense = db.Column(db.Integer)
+    owner_id = db.Column(db.Integer)
+    
+    # Use this method to register our user attributes
+    def from_dict(self, data):
+        self.poke_name = data['poke_name']
+        self.ability = data['ability']
+        self.sprite_url = data['sprite_url']
+        self.exp = data['exp']
+        self.attack = data['attack']
+        self.hp = data['hp']
+        self.defense = data['defense']
+    
+    # Save the pokemon to database
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    # Update to db
+    def update_to_db(self):
+        db.session.commit()
+
+    # Delete from db
+    def delete_post(self):
+        db.session.delete(self)
+        db.session.commit()
+
+'''User table'''
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String, nullable=False)
@@ -22,6 +61,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
+    # poke_count = db.Column(db.Integer)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     followed = db.relationship('User',
         secondary = followers,
@@ -29,6 +69,13 @@ class User(UserMixin, db.Model):
         secondaryjoin = (followers.columns.followed_id == id),
         backref= db.backref('followers', lazy='dynamic'),
         lazy = 'dynamic')
+    
+    '''Join w/ Pokemon table'''
+    # my_team = db.relationship('User',
+    #     secondary = poke_team,
+    #     primaryjoin = (poke_team.columns.poke_id == Pokemon.id),
+    #     backref= db.backref('team', lazy='dynamic'),
+    #     lazy = 'dynamic')
 
     # hashes our password
     def hash_password(self, original_password):
@@ -73,39 +120,6 @@ class User(UserMixin, db.Model):
 @login.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
-
-'''Pokemon table'''
-class Pokemon(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    poke_name = db.Column(db.String, nullable=False)
-    ability = db.Column(db.String)
-    sprite_url = db.Column(db.String)
-    exp = db.Column(db.Integer)
-    attack = db.Column(db.Integer)
-    hp = db.Column(db.Integer)
-    defense = db.Column(db.Integer)
-    
-    # Use this method to register our user attributes
-    def from_dict(self, data):
-        self.poke_name = data['poke_name']
-        self.ability = data['ability']
-        self.sprite_url = data['sprite_url']
-        self.exp = data['exp']
-        self.attack = data['attack']
-        self.hp = data['hp']
-        self.defense = data['defense']
-    
-    # Save the pokemon to database
-    def save_to_db(self):
-        db.session.add(self)
-        db.session.commit()
-
-'''Table to bridge user and pokemon'''
-poke_team = db.Table(
-    'poke_team',
-    db.Column('poke_id', db.Integer, db.ForeignKey('pokemon.id')),
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
-)
 
 '''Posting to the feed'''
 class Post(db.Model):

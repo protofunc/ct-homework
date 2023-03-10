@@ -57,7 +57,8 @@ def pokemon():
                     'exp': poke_dict['base_experience'],
                     'attack': poke_dict['attack base_stat'],
                     'hp': poke_dict['hp base_stat'],
-                    'defense': poke_dict['defense base_stat']
+                    'defense': poke_dict['defense base_stat'],
+                    'owner_id': current_user.id
                 }
 
                 # Verify dict is same naming convention as pokemon model paramaters
@@ -81,3 +82,16 @@ def pokemon():
             return render_template('pokemon.html', form=form) 
     
     return render_template('pokemon.html', form=form)
+
+'''Display user pokemon'''
+@main.route('/my_pokemon/<int:user_id>', methods=['GET'])
+@login_required
+def my_pokemon(user_id):
+    # poke_count = User.query.all()
+    # caught = Pokemon.query.get(user_id)
+    # if caught.:
+    #     return render_template('view_single_post.html', post=post)
+    # else:
+    #     flash('This post does not exist.', 'danger')
+    #     return redirect(url_for('posts.view_post.html'))
+    pass

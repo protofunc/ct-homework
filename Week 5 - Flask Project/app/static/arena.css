@@ -4,22 +4,14 @@
 }
 
 body {
-    background-image: url("images/img_bg.png");
+    background-image: url("images/battle.png");
     background-size: cover;
     background-repeat: no-repeat;
-    background-color: #7dad71;
     background-attachment: fixed;
 }
 
-
-.the-cards {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-}
-
-.card {
-    margin-bottom: 2em;
+.bg-primary {
+    background-color: #8F0D0D !important;
 }
 
 table {
@@ -40,15 +32,10 @@ td, th {
     flex-wrap: wrap;
 }
 
-/* .my-team, .opps-team {
-    margin: 1em;
-} */
-
 h1 {
     text-align: center;
     color: whitesmoke;
-    margin-top: .5em;
-    margin-bottom: .5em;
+    margin: 0;
 }
 
 .h1-home {
@@ -63,7 +50,7 @@ h1 {
     height: 2.5em;
     width: 6em;
     border-radius: 10px;
-    background-color: rgb(17, 93, 192);
+    background-color: #8F0D0D;
     color: white;
     font-size:medium;
     border: none;
@@ -78,12 +65,22 @@ h1 {
     flex-direction: row;
 }
 
+#arena-container {
+    border: 1px solid black;
+    margin-top: 1em;
+    background: rgba(255, 255, 255, 0.6);
+    width: 15%;
+
+}
+
 form {
     display: flex;
     flex-direction:column;
     justify-content: center;
     align-items: center;
-    margin-top: 1em;
+    margin: 0;
+    padding-top: .7em;
+    padding-bottom: .7em;
 }
 
 .form-group {
@@ -98,4 +95,8 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.oops {
+    margin-bottom: .5em;
 }

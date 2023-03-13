@@ -126,12 +126,11 @@ class User(UserMixin, db.Model):
         self.poke_count+=1
         db.session.commit()
 
-    '''Needs work'''
-    # # remove pokemon from team
-    # def team_remove(self, user):
-    #     self.my_team.remove(user)
-    #     self.poke_count.append(self.poke_count - 1)
-    #     db.session.commit()
+    # remove pokemon from team
+    def team_remove(self, dropped_poke):
+        self.my_team.remove(dropped_poke)
+        self.poke_count-=1
+        db.session.commit()
 
 '''Load user'''
 @login.user_loader

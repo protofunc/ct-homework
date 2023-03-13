@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Arena
+{% endblock %}
+
+{% block content %}
+{% if opps_team and my_team %}
+<form method="POST" action="{{url_for('main.battle', user_id=opps.id)}}">
+    <input type="submit" value="Battle!" class="btn btn-success">
+</form>
+<div class="arena-tables">
+    <div class="my-team">
+        <h1 class="h1-poke">{{current_user.first_name}}'s Team</h1>
+        <table class="table table-primary">
+            <thead>
+                <tr>
+                    <th scope="col">Pokemon</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Ability</th>
+                    <th scope="col">XP</th>
+                    <th scope="col">ATK</th>
+                    <th scope="col">HP</th>
+                    <th scope="col">DEF</th>
+                </tr>
+            </thead>
+            {% for pokemon in my_team %}
+            <tbody>
+                <tr>
+                    <td><img src="{{pokemon['sprite_url']}}" alt="Pokemon"></td>
+                    <td>{{pokemon.poke_name.title()}}</td>
+                    <td>{{pokemon.ability.title()}}</td>
+                    <td>{{pokemon.exp}}</td>
+                    <td>{{pokemon.attack}}</td>
+                    <td>{{pokemon.hp}}</td>
+                    <td>{{pokemon.defense}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="opps-team">
+        <h1 class="h1-poke">{{opps.first_name}}'s Team</h1>
+        <table class="table table-primary">
+            <thead>
+                <tr>
+                    <th scope="col">Pokemon</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Ability</th>
+                    <th scope="col">XP</th>
+                    <th scope="col">ATK</th>
+                    <th scope="col">HP</th>
+                    <th scope="col">DEF</th>
+                </tr>
+            </thead>
+            {% for pokemon in opps_team %}
+            <tbody>
+                <tr>
+                    <td><img src="{{pokemon['sprite_url']}}" alt="Pokemon"></td>
+                    <td>{{pokemon.poke_name.title()}}</td>
+                    <td>{{pokemon.ability.title()}}</td>
+                    <td>{{pokemon.exp}}</td>
+                    <td>{{pokemon.attack}}</td>
+                    <td>{{pokemon.hp}}</td>
+                    <td>{{pokemon.defense}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+    <div class="empty-team">
+        <h1>Oops!</h1>
+        <img src="{{ url_for('static', filename='../static/images/oops.png') }}" alt="uh oh.." width="20%" style="border: 2px solid whitesmoke">
+    </div>
+{% endif %}
+{% endblock %}

@@ -5,21 +5,24 @@ Home
 {% endblock %}
 
 {% block content %}
-    <h1 class="h1-home">Pokedex!</h1>
-    {% for user in users %}
+<h1>Welcome to Pokedex!</h1>
+    <div class="the-cards">
+      {% for user in users %}
       {% if user != current_user %}
       <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="{{ url_for('static', filename='../static/images/generic_user.png') }}" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
-            <p class="card-text">Gotta catch 'em all!</p>
-            {% if user.isFollowing %}
-            <a href="{{url_for('posts.unfollow', user_id=user.id)}}" class="btn btn-danger">Unfollow</a>
-            {% else %}
-            <a href="{{url_for('posts.follow', user_id=user.id)}}" class="btn btn-primary">Follow</a>
-            {% endif %}
-          </div>
+        <img class="card-img-top" src="{{ url_for('static', filename='../static/images/user_img.png') }}"
+          alt="Card image cap">
+        <div class="card-body mx-auto">
+          <h4 class="card-title" style="text-align: center;"><strong>{{user.first_name}} {{user.last_name}}</strong></h4>
+          {% if user.isFollowing %}
+          <a href="{{url_for('posts.unfollow', user_id=user.id)}}" class="btn btn-danger ">Unfollow</a>
+          {% else %}
+          <a href="{{url_for('posts.follow', user_id=user.id)}}" class="btn btn-primary">Follow</a>
+          {% endif %}
+          <a href="{{url_for('main.battle', user_id=user.id)}}" class="btn btn-danger">Battle</a>
         </div>
+      </div>
       {% endif %}
-    {% endfor %}
+      {% endfor %}
+    </div>
 {% endblock %}

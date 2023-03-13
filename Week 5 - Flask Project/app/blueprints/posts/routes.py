@@ -50,7 +50,7 @@ def view_single_post(post_id):
         return render_template('view_single_post.html', post=post)
     else:
         flash('This post does not exist.', 'danger')
-        return redirect(url_for('posts.view_post.html'))
+        return redirect(url_for('posts.view_post'))
 
 @posts.route('/update/<int:post_id>', methods=['GET', 'POST'])
 def update_post(post_id):

@@ -19,6 +19,7 @@ poke_team = db.Table(
 
 '''Pokemon table'''
 class Pokemon(db.Model):
+    # Attributes
     id = db.Column(db.Integer, primary_key=True)
     poke_name = db.Column(db.String, nullable=False)
     ability = db.Column(db.String)
@@ -27,7 +28,6 @@ class Pokemon(db.Model):
     attack = db.Column(db.Integer)
     hp = db.Column(db.Integer)
     defense = db.Column(db.Integer)
-    owner_id = db.Column(db.Integer)
     
     # Use this method to register our user attributes
     def from_dict(self, data):
@@ -55,27 +55,29 @@ class Pokemon(db.Model):
 
 '''User table'''
 class User(UserMixin, db.Model):
+    # Attributes
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
-    # poke_count = db.Column(db.Integer)
+    poke_count = db.Column(db.Integer, default=0)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     followed = db.relationship('User',
         secondary = followers,
         primaryjoin = (followers.columns.follower_id == id),
         secondaryjoin = (followers.columns.followed_id == id),
-        backref= db.backref('followers', lazy='dynamic'),
+        backref = db.backref('followers', lazy='dynamic'),
         lazy = 'dynamic')
     
-    '''Join w/ Pokemon table'''
-    # my_team = db.relationship('User',
-    #     secondary = poke_team,
-    #     primaryjoin = (poke_team.columns.poke_id == Pokemon.id),
-    #     backref= db.backref('team', lazy='dynamic'),
-    #     lazy = 'dynamic')
+    # join User and Pokemon tables
+    my_team = db.relationship('Pokemon',
+        secondary = poke_team, 
+        primaryjoin = (poke_team.columns.user_id == id),
+        secondaryjoin = (poke_team.columns.poke_id == Pokemon.id),
+        backref='team', 
+        lazy='dynamic')
 
     # hashes our password
     def hash_password(self, original_password):
@@ -85,25 +87,25 @@ class User(UserMixin, db.Model):
     def check_hash_password(self, login_password):
         return check_password_hash(self.password, login_password)
     
-    # Use this method to register our user attributes
+    # register user attributes
     def from_dict(self, data):
         self.first_name = data['first_name']
         self.last_name = data['last_name']
         self.email = data['email']
         self.password = self.hash_password(data['password'])
 
-    # Update user attributes without prompting for password
+    # update user attributes without prompting for password
     def update_dict(self, data):
         self.first_name = data['first_name']
         self.last_name = data['last_name']
         self.email = data['email']
     
-    # Save the user to database
+    # save the user to db
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
 
-    # Update the user to database
+    # Update user in db
     def update_to_db(self):
         db.session.commit()
 
@@ -117,12 +119,28 @@ class User(UserMixin, db.Model):
         self.followed.remove(user)
         db.session.commit()
 
+    # add pokemon to team, increase personal poke count by 1
+    def team_add(self, new_poke):
+        # Add the Pokemon instance to the my_team relationship
+        self.my_team.append(new_poke)
+        self.poke_count+=1
+        db.session.commit()
+
+    '''Needs work'''
+    # # remove pokemon from team
+    # def team_remove(self, user):
+    #     self.my_team.remove(user)
+    #     self.poke_count.append(self.poke_count - 1)
+    #     db.session.commit()
+
+'''Load user'''
 @login.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
 '''Posting to the feed'''
 class Post(db.Model):
+    # Attributes
     id = db.Column(db.Integer, primary_key=True)
     img_url = db.Column(db.String, nullable=False)
     title = db.Column(db.String)
@@ -131,23 +149,23 @@ class Post(db.Model):
     # FK to User Table
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    # Commit post to db
+    # commit post to db
     def from_dict(self, data):
         self.img_url = data['img_url']
         self.title = data['title']
         self.caption = data['caption']
         self.user_id = data['user_id']
 
-    # Save the user to database
+    # save the user to database
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
 
-    # Update to db
+    # update db
     def update_to_db(self):
         db.session.commit()
 
-    # Delete from db
+    # delete from db
     def delete_post(self):
         db.session.delete(self)
         db.session.commit()

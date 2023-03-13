@@ -26,6 +26,7 @@ h1 {
     text-align: center;
     color: whitesmoke;
     margin-top: .5em;
+    margin-bottom: .5em;
 }
 
 .h1-home {
@@ -69,4 +70,10 @@ form {
     color: white;
     font-weight:500;
     font-size: large;
+}
+
+.empty-team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

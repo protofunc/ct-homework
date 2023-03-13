@@ -6,6 +6,7 @@
 
 {% block content %}
     <h1 class="h1-feed">{{post.author.first_name}}'s Post</h1>
+    <div class="the-cards">
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="{{post.img_url}}" alt="Card image cap">
         <div class="card-body">
@@ -23,6 +24,7 @@
                 Delete
             </button>
         </div>
+    </div>
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">

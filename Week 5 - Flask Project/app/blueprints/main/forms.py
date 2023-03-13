@@ -4,5 +4,8 @@ from wtforms.validators import DataRequired
 
 class PokeForm(FlaskForm):
     name = StringField('API Lookup:', validators=[DataRequired()], render_kw={"placeholder": "Enter Name of Pokemon"})
-    submit_btn = SubmitField('Submit', validators=[DataRequired()])
-    catch_btn = SubmitField('Catch')
+    submit_btn = SubmitField('Submit', name='submit', validators=[DataRequired()])
+    catch_btn = SubmitField('Catch', name='catch')
+
+class TeamForm(FlaskForm):
+    drop_btn = SubmitField('Drop', name='drop')

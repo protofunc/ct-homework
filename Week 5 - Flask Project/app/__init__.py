@@ -34,10 +34,12 @@ def create_app():
     from app.blueprints.main import main
     from app.blueprints.auth import auth
     from app.blueprints.posts import posts
+    from app.blueprints.api import api
 
     # Register blueprints
     app.register_blueprint(main)
     app.register_blueprint(auth)
     app.register_blueprint(posts)
+    app.register_blueprint(api)
 
     return app

@@ -1,7 +1,6 @@
 from flask import render_template, request, flash, redirect, url_for
 from app.blueprints.posts.forms import PostForm
 from app.blueprints.posts import posts
-from app.models import Post
 from werkzeug.security import check_password_hash
 from flask_login import current_user, login_required
 from app.models import Post, User
@@ -51,7 +50,7 @@ def view_single_post(post_id):
         return render_template('view_single_post.html', post=post)
     else:
         flash('This post does not exist.', 'danger')
-        return redirect(url_for('posts.view_post.html'))
+        return redirect(url_for('posts.view_post'))
 
 @posts.route('/update/<int:post_id>', methods=['GET', 'POST'])
 def update_post(post_id):

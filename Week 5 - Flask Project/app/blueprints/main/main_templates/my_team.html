@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    My Pokemon Team
+{% endblock %}
+
+{% block content %}
+{% if team_data %}
+<h1 class="h1-poke">The Squad</h1>
+<table class="table table-primary">
+    <thead>
+        <tr>
+            <th scope="col">Pokemon</th>
+            <th scope="col">Name</th>
+            <th scope="col">Ability</th>
+            <th scope="col">Base Experience</th>
+            <th scope="col">Sprite URL</th>
+            <th scope="col">Attack Base Stat</th>
+            <th scope="col">HP Base Stat</th>
+            <th scope="col">Defense Base Stat</th>
+            <th scope="col">Relase from Team</th>
+        </tr>
+    </thead>
+    {% for pokemon in team_data %}
+    <tbody>
+        <tr>
+            <td><img src="{{pokemon['sprite_url']}}" alt="Pokemon"></td>
+            <td>{{pokemon.poke_name.title()}}</td>
+            <td>{{pokemon.ability.title()}}</td>
+            <td>{{pokemon.exp}}</td>
+            <td><a href="{{pokemon['sprite_url']}}" target="_blank">Sprite Link</a></td>
+            <td>{{pokemon.attack}}</td>
+            <td>{{pokemon.hp}}</td>
+            <td>{{pokemon.defense}}</td>
+            <td>
+                <form method="POST" action="{{url_for('main.my_team', user_id=current_user.id)}}">
+                    {{ form.hidden_tag() }}
+                    <!-- Return team_num, a value that is assigned to every pokemon in the team_data list -->
+                    <input type="hidden" name="team_number" value="{{pokemon.team_num}}"> 
+                    {{ form.drop_btn(class="btn btn-danger") }}
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <div class="empty-team">
+        <h1>Oops!</h1>
+        <img src="{{ url_for('static', filename='../static/images/oops.png') }}" alt="uh oh.." width="20%" style="border: 2px solid whitesmoke">
+    </div>
+{% endif %}
+{% endblock %}

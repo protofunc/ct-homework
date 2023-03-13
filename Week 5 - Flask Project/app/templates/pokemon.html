@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="h1-poke">Pokemon API</h1>
+<h1 class="h1-poke">Pokemon Search</h1>
 <form action="{{url_for('main.pokemon')}}" method="POST">
     {{form.hidden_tag()}}
     <div class="form-group">
@@ -14,9 +14,6 @@
     <div class="poke-btns">
         <div class="buttons">
             {{form.submit_btn(class="btn btn-primary")}}
-        </div>
-        <div class="buttons">
-            {{form.catch_btn(class="btn btn-primary")}}
         </div>
     </div>    
 </form>
@@ -34,18 +31,25 @@
             <th scope="col">Attack Base Stat</th>
             <th scope="col">HP Base Stat</th>
             <th scope="col">Defense Base Stat</th>
+            <th scope="col">Pokeball</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td><img src="{{pokemon['sprite URL']}}" alt="Pokemon"></td>
-            <td>{{pokemon.name}}</td>
-            <td>{{pokemon.ability}}</td>
+            <td>{{pokemon.name.title()}}</td>
+            <td>{{pokemon.ability.title()}}</td>
             <td>{{pokemon.base_experience}}</td>
             <td><a href="{{pokemon['sprite URL']}}" target="_blank">Sprite Link</a></td>
             <td>{{pokemon['attack base_stat']}}</td>
             <td>{{pokemon['hp base_stat']}}</td>
             <td>{{pokemon['defense base_stat']}}</td>
+            <td>
+                <form method="POST" action="{{url_for('main.pokemon')}}">
+                    {{ form.hidden_tag() }}
+                    {{ form.catch_btn(class="btn btn-primary") }}
+                </form>
+            </td>
         </tr>
     {% endfor %}
     </tbody>

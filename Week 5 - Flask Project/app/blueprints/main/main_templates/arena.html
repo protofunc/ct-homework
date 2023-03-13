@@ -4,11 +4,17 @@
     Arena
 {% endblock %}
 
-{% block content %}
+{% block css %}
+    <link rel="stylesheet" href="{{url_for('static', filename='arena.css')}}">
+{% endblock %}
+
+{% block body %}
 {% if opps_team and my_team %}
-<form method="POST" action="{{url_for('main.battle', user_id=opps.id)}}">
-    <input type="submit" value="Battle!" class="btn btn-success">
-</form>
+<div class="container" id="arena-container">
+    <form method="POST" action="{{url_for('main.battle', user_id=opps.id)}}">
+        <input type="submit" value="Battle!" class="btn btn-success">
+    </form>
+</div>
 <div class="arena-tables">
     <div class="my-team">
         <h1 class="h1-poke">{{current_user.first_name}}'s Team</h1>
@@ -69,10 +75,12 @@
         </table>
     </div>
 </div>
+
 {% else %}
     <div class="empty-team">
-        <h1>Oops!</h1>
+        <h1 class="oops">Oops!</h1>
         <img src="{{ url_for('static', filename='../static/images/oops.png') }}" alt="uh oh.." width="20%" style="border: 2px solid whitesmoke">
     </div>
 {% endif %}
+
 {% endblock %}

@@ -128,7 +128,7 @@ def battle(user_id):
                 flash('Your team lost, better luck next time!', 'danger')
             if opps_fight['hp'] <= 0:
                 flash('Your team won this pokemon battle!', 'success')
-        
+        return render_template('arena.html', opps_team=opps_team, my_team=my_team, opps=opps)
     if opps_team and my_team:
         return render_template('arena.html', opps_team=opps_team, my_team=my_team, opps=opps)
     else:
